@@ -20,9 +20,17 @@ export class AccessTokenJwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     const { sub, email } = payload;
     const user = await this.prisma.user.findUnique({
       where: { id: sub, email },
+      include: { Company: true },
     });
     if (!user) throw new Error('User not found!');
-    const { password, ...result } = user;
-    return result;
+    const companyId = user.Company.length > 0 ? user.Company[0].id : null;
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      companyId,
+    };
   }
 }

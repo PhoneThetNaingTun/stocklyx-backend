@@ -22,7 +22,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Company   Company[]
-  shops     Store[]    @relation("StoreStaffs")
+  shops     Store[]   @relation("StoreStaffs")
   Token     Token[]
 }
 
@@ -37,7 +37,7 @@ model Token {
   id        String   @id @default(cuid())
   token     String   @unique
   userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   expireAt  DateTime
 }
@@ -45,19 +45,21 @@ model Token {
 model Company {
   id           String   @id @default(cuid())
   ownerId      String
-  owner        User     @relation(fields: [ownerId], references: [id])
+  owner        User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   company_name String
   company_logo String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  store         Store[]
+  store        Store[]
 }
 
 model Store {
-  id            String  @id @default(cuid())
+  id             String   @id @default(cuid())
   store_name     String
   store_location String
-  companyId     String
-  company       Company @relation(fields: [companyId], references: [id])
-  staffs        User[]  @relation("StoreStaffs")
+  companyId      String
+  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  staffs         User[]   @relation("StoreStaffs")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
