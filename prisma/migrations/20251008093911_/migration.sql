@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Store" ALTER COLUMN "store_name" DROP DEFAULT,
+ALTER COLUMN "store_city" DROP DEFAULT,
+ALTER COLUMN "store_country" DROP DEFAULT,
+ALTER COLUMN "store_phone" DROP DEFAULT;

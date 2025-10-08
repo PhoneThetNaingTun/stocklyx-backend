@@ -15,6 +15,7 @@ import { Role } from '@prisma/client';
 import { Roles } from 'src/auth/decorators';
 import { RoleGuard } from 'src/auth/guards';
 import { GetCompanyId } from 'src/comm/decorators';
+import { StoreDeleteManyDto } from './dto';
 import { StoreDto } from './dto/store.dto';
 import { StoreService } from './store.service';
 
@@ -50,5 +51,11 @@ export class StoreController {
   @HttpCode(HttpStatus.OK)
   deleteStore(@Param('id') storeId: string) {
     return this.storeService.deleteOne(storeId);
+  }
+
+  @Delete('delete-multiple')
+  @HttpCode(HttpStatus.OK)
+  deleteManyStore(@Body() dto: StoreDeleteManyDto) {
+    return this.storeService.deleteMany(dto);
   }
 }

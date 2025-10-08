@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { StoreDeleteManyDto } from './dto';
 import { StoreDto } from './dto/store.dto';
 
 @Injectable()
@@ -77,5 +78,12 @@ export class StoreService {
     if (!existingStore) throw new NotFoundException('Store Not Found!');
     await this.prisma.store.delete({ where: { id: storeId } });
     return { message: 'Store Deleted Successfully!' };
+  }
+
+  async deleteMany(dto: StoreDeleteManyDto) {
+    const deleteStores = await this.prisma.store.deleteMany({
+      where: { id: { in: dto.storeIds } },
+    });
+    return { message: `${deleteStores.count} Stores Deleted Successfully!` };
   }
 }

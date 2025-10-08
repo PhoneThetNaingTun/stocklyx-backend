@@ -56,7 +56,11 @@ model Company {
 model Store {
   id             String   @id @default(cuid())
   store_name     String
+  store_phone    String
+  store_email    String
   store_location String
+  store_city     String
+  store_country  String
   companyId      String
   company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
   staffs         User[]   @relation("StoreStaffs")
