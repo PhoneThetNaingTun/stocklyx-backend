@@ -56,19 +56,19 @@ export class StoreController {
     return this.storeService.updateOne(storeId, dto);
   }
 
-  @Delete('/:id/archive')
+  @Patch('archive/:id')
   @HttpCode(HttpStatus.OK)
   deleteStore(@Param('id') storeId: string) {
     return this.storeService.archiveOne(storeId);
   }
 
-  @Delete('archive-multiple')
+  @Patch('archive-multiple')
   @HttpCode(HttpStatus.OK)
   deleteManyStore(@Body() dto: StoreDeleteManyDto) {
     return this.storeService.archiveMany(dto);
   }
 
-  @Patch('/:id/restore')
+  @Patch('restore/:id')
   @HttpCode(HttpStatus.OK)
   restoreStore(@Param('id') storeId: string) {
     return this.storeService.restoreOne(storeId);
@@ -80,7 +80,7 @@ export class StoreController {
     return this.storeService.restoreMany(dto);
   }
 
-  @Delete('/:id/delete')
+  @Delete('delete/:id')
   @HttpCode(HttpStatus.OK)
   deleteStorePermanent(@Param('id') storeId: string) {
     return this.storeService.deleteOne(storeId);
