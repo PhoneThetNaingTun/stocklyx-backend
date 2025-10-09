@@ -34,11 +34,43 @@ export class StoreService {
     const stores = await this.prisma.store.findMany({
       where: {
         companyId,
+        deletedAt: null,
         ...where,
       },
       skip,
       take: limit,
-      // orderBy:{createdAt:"decs"}
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const totalCounts = await this.prisma.store.count({ where: { companyId } });
+    const totalPages = Math.ceil(totalCounts / limit);
+    return { stores, totalPages };
+  }
+
+  async findAllArchive(
+    companyId: string,
+    page: number,
+    limit: number,
+    store_name: string,
+  ) {
+    const skip = (page - 1) * limit;
+    const where = store_name
+      ? {
+          store_name: {
+            contains: store_name,
+            mode: Prisma.QueryMode.insensitive,
+          },
+        }
+      : {};
+    const stores = await this.prisma.store.findMany({
+      where: {
+        companyId,
+        deletedAt: { not: null },
+        ...where,
+      },
+      skip,
+      take: limit,
+      orderBy: { createdAt: 'desc' },
     });
 
     const totalCounts = await this.prisma.store.count({ where: { companyId } });
@@ -71,12 +103,52 @@ export class StoreService {
     };
   }
 
-  async deleteOne(storeId: string) {
+  async archiveOne(storeId: string) {
     const existingStore = await this.prisma.store.findUnique({
       where: { id: storeId },
     });
     if (!existingStore) throw new NotFoundException('Store Not Found!');
-    await this.prisma.store.delete({ where: { id: storeId } });
+    await this.prisma.store.update({
+      where: { id: storeId },
+      data: { deletedAt: new Date() },
+    });
+    return { message: 'Store Archived Successfully!' };
+  }
+
+  async archiveMany(dto: StoreDeleteManyDto) {
+    const deleteStores = await this.prisma.store.updateMany({
+      where: { id: { in: dto.storeIds } },
+      data: { deletedAt: new Date() },
+    });
+    return { message: `${deleteStores.count} Stores Archived Successfully!` };
+  }
+
+  async restoreOne(storeId: string) {
+    const existingStore = await this.prisma.store.findUnique({
+      where: { id: storeId },
+    });
+    if (!existingStore) throw new NotFoundException('Store Not Found!');
+    await this.prisma.store.update({
+      where: { id: storeId },
+      data: { deletedAt: null },
+    });
+    return { message: 'Store Restored Successfully!' };
+  }
+
+  async restoreMany(dto: StoreDeleteManyDto) {
+    const restoreStores = await this.prisma.store.updateMany({
+      where: { id: { in: dto.storeIds } },
+      data: { deletedAt: null },
+    });
+    return { message: `${restoreStores.count} Stores Restored Successfully!` };
+  }
+
+  async deleteOne(storeId: string) {
+    const existingStore = await this.prisma.store.findUnique({
+      where: { id: storeId, deletedAt: { not: null } },
+    });
+    if (!existingStore) throw new NotFoundException('Store Not Found!');
+    await this.prisma.store.delete({ where: { id: existingStore.id } });
     return { message: 'Store Deleted Successfully!' };
   }
 

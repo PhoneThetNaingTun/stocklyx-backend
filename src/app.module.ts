@@ -8,6 +8,7 @@ import { CompanyModule } from './company/company.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { StoreModule } from './store/store.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { StoreModule } from './store/store.module';
     UserModule,
     CompanyModule,
     StoreModule,
+    CategoryModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: AccessJwtAuthGuard }],
 })

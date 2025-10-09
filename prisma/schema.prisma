@@ -43,18 +43,20 @@ model Token {
 }
 
 model Company {
-  id           String   @id @default(cuid())
+  id           String     @id @default(cuid())
   ownerId      String
-  owner        User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner        User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   company_name String
   company_logo String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
   store        Store[]
+  Category     Category[]
 }
 
 model Store {
-  id             String   @id @default(cuid())
+  id             String    @id @default(cuid())
   store_name     String
   store_phone    String
   store_email    String
@@ -62,8 +64,19 @@ model Store {
   store_city     String
   store_country  String
   companyId      String
-  company        Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  staffs         User[]   @relation("StoreStaffs")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  company        Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  staffs         User[]    @relation("StoreStaffs")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
+}
+
+model Category {
+  id            String    @id @default(cuid())
+  category_name String
+  companyId     String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+  company       Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
 }

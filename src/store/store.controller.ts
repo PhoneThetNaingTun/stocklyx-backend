@@ -34,6 +34,15 @@ export class StoreController {
   ) {
     return this.storeService.findAll(companyId, page, limit, store_name);
   }
+  @Get('all/archived')
+  getAllArchive(
+    @GetCompanyId() companyId: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('store_name') store_name: string,
+  ) {
+    return this.storeService.findAllArchive(companyId, page, limit, store_name);
+  }
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
@@ -47,15 +56,39 @@ export class StoreController {
     return this.storeService.updateOne(storeId, dto);
   }
 
-  @Delete('delete/:id')
+  @Delete('/:id/archive')
   @HttpCode(HttpStatus.OK)
   deleteStore(@Param('id') storeId: string) {
+    return this.storeService.archiveOne(storeId);
+  }
+
+  @Delete('archive-multiple')
+  @HttpCode(HttpStatus.OK)
+  deleteManyStore(@Body() dto: StoreDeleteManyDto) {
+    return this.storeService.archiveMany(dto);
+  }
+
+  @Patch('/:id/restore')
+  @HttpCode(HttpStatus.OK)
+  restoreStore(@Param('id') storeId: string) {
+    return this.storeService.restoreOne(storeId);
+  }
+
+  @Patch('restore-multiple')
+  @HttpCode(HttpStatus.OK)
+  restoreManyStore(@Body() dto: StoreDeleteManyDto) {
+    return this.storeService.restoreMany(dto);
+  }
+
+  @Delete('/:id/delete')
+  @HttpCode(HttpStatus.OK)
+  deleteStorePermanent(@Param('id') storeId: string) {
     return this.storeService.deleteOne(storeId);
   }
 
   @Delete('delete-multiple')
   @HttpCode(HttpStatus.OK)
-  deleteManyStore(@Body() dto: StoreDeleteManyDto) {
+  deleteManyStorePermanent(@Body() dto: StoreDeleteManyDto) {
     return this.storeService.deleteMany(dto);
   }
 }
