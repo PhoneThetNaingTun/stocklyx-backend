@@ -55,6 +55,7 @@ model Company {
   Category     Category[]
   Brand        Brand[]
   Customer     Customer[]
+  Supplier     Supplier[]
 }
 
 model Store {
@@ -102,6 +103,22 @@ model Customer {
   customer_address String?
   customer_city    String?
   customer_country String?
+  companyId        String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Supplier {
+  id               String    @id @default(cuid())
+  supplier_name    String
+  supplier_email   String?   @unique
+  supplier_phone   String?
+  supplier_address String?
+  supplier_city    String?
+  supplier_country String?
   companyId        String
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
