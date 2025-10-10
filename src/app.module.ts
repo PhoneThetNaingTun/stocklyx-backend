@@ -9,6 +9,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { StoreModule } from './store/store.module';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
+import { BrandModule } from './brand/brand.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CategoryModule } from './category/category.module';
     CompanyModule,
     StoreModule,
     CategoryModule,
+    BrandModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: AccessJwtAuthGuard }],
 })

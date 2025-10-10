@@ -18,7 +18,7 @@ import { GetCompanyId } from 'src/comm/decorators';
 import { CategoryService } from './category.service';
 import { CategoryDeleteManyDto, CategoryDto } from './dto';
 
-@Roles(Role.OWNER, Role.MANAGER)
+@Roles(Role.OWNER)
 @UseGuards(RoleGuard)
 @Controller('category')
 export class CategoryController {
