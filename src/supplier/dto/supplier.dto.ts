@@ -8,40 +8,40 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CustomerDto {
+export class SupplierDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(1)
   @MaxLength(100)
-  customer_name: string;
+  supplier_name: string;
 
   @IsOptional()
   @Transform(({ value }) => (value === '' ? undefined : value))
   @IsEmail()
   @MaxLength(100)
-  customer_email?: string;
+  supplier_email?: string;
 
   @IsOptional()
   @Transform(({ value }) => (value === '' ? undefined : value))
   @IsString()
   @MaxLength(100)
-  customer_phone?: string;
+  supplier_phone?: string;
 
   @IsOptional()
   @Transform(({ value }) => (value === '' ? undefined : value))
   @IsString()
   @MaxLength(100)
-  customer_address?: string;
+  supplier_address?: string;
 
   @IsOptional()
   @Transform(({ value }) => (value === '' ? undefined : value))
   @IsString()
   @MaxLength(100)
-  customer_city?: string;
+  supplier_city?: string;
 
   @IsOptional()
   @Transform(({ value }) => (value === '' ? undefined : value))
   @IsString()
   @MaxLength(100)
-  customer_country?: string;
+  supplier_country?: string;
 }
