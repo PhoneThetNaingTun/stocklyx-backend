@@ -10,6 +10,7 @@ import { StoreModule } from './store/store.module';
 import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import { BrandModule } from './brand/brand.module';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { BrandModule } from './brand/brand.module';
     StoreModule,
     CategoryModule,
     BrandModule,
+    CustomerModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: AccessJwtAuthGuard }],
 })

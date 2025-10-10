@@ -54,6 +54,7 @@ model Company {
   store        Store[]
   Category     Category[]
   Brand        Brand[]
+  Customer     Customer[]
 }
 
 model Store {
@@ -91,4 +92,20 @@ model Brand {
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
   company    Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model Customer {
+  id               String    @id @default(cuid())
+  customer_name    String
+  customer_phone   String?
+  customer_email   String?
+  customer_address String?
+  customer_city    String?
+  customer_country String?
+  companyId        String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 }
