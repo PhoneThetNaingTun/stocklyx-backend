@@ -12,6 +12,7 @@ import { CategoryModule } from './category/category.module';
 import { BrandModule } from './brand/brand.module';
 import { CustomerModule } from './customer/customer.module';
 import { SupplierModule } from './supplier/supplier.module';
+import { MeasurementUnitModule } from './measurement-unit/measurement-unit.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SupplierModule } from './supplier/supplier.module';
     BrandModule,
     CustomerModule,
     SupplierModule,
+    MeasurementUnitModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: AccessJwtAuthGuard }],
 })

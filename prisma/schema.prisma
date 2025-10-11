@@ -43,19 +43,20 @@ model Token {
 }
 
 model Company {
-  id           String     @id @default(cuid())
-  ownerId      String
-  owner        User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  company_name String
-  company_logo String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  deletedAt    DateTime?
-  store        Store[]
-  Category     Category[]
-  Brand        Brand[]
-  Customer     Customer[]
-  Supplier     Supplier[]
+  id              String            @id @default(cuid())
+  ownerId         String
+  owner           User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  company_name    String
+  company_logo    String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  deletedAt       DateTime?
+  store           Store[]
+  Category        Category[]
+  Brand           Brand[]
+  Customer        Customer[]
+  Supplier        Supplier[]
+  MeasurementUnit MeasurementUnit[]
 }
 
 model Store {
@@ -125,4 +126,14 @@ model Supplier {
   deletedAt        DateTime?
 
   company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+}
+
+model MeasurementUnit {
+  id        String    @id @default(cuid())
+  unit      String
+  companyId String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  company   Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
 }
